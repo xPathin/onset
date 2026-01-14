@@ -21,9 +21,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/xPathin/onset/main/install_a
 
 ### Arch Linux (AUR)
 
-```bash
-paru -S onset
-```
+-   Coming soon
 
 ### From Source
 
