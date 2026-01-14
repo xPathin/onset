@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Onset
+GenericName=Autostart Manager
+Comment=Manage XDG autostart entries
+Exec=onset
+Icon=com.github.xPathin.onset
+Categories=Settings;System;GTK;
+Keywords=autostart;startup;boot;login;session;
+StartupNotify=true
+Terminal=false
