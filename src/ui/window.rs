@@ -20,6 +20,7 @@ pub struct MainWindow {
     entries: Rc<RefCell<Vec<AutostartEntry>>>,
     applications: Rc<RefCell<Vec<Application>>>,
     list_box: gtk4::ListBox,
+    stack: gtk4::Stack,
     toast_overlay: adw::ToastOverlay,
 }
 
@@ -107,10 +108,11 @@ impl MainWindow {
             entries: entries.clone(),
             applications: applications.clone(),
             list_box: list_box.clone(),
+            stack: stack.clone(),
             toast_overlay: toast_overlay.clone(),
         };
 
-        main_window.load_entries(&stack);
+        main_window.load_entries();
         main_window.load_applications();
 
         {
@@ -164,16 +166,16 @@ impl MainWindow {
         window
     }
 
-    fn load_entries(&self, stack: &gtk4::Stack) {
+    fn load_entries(&self) {
         match discover_autostart_entries() {
             Ok(discovered) => {
                 *self.entries.borrow_mut() = discovered;
                 self.populate_list();
 
                 if self.entries.borrow().is_empty() {
-                    stack.set_visible_child_name("empty");
+                    self.stack.set_visible_child_name("empty");
                 } else {
-                    stack.set_visible_child_name("list");
+                    self.stack.set_visible_child_name("list");
                 }
             }
             Err(e) => {
@@ -202,15 +204,16 @@ impl MainWindow {
         let entries = self.entries.borrow();
         let entries_clone = self.entries.clone();
         let list_box_clone = self.list_box.clone();
+        let stack_clone = self.stack.clone();
         let toast_overlay_clone = self.toast_overlay.clone();
         let window_clone = self.window.clone();
 
         for entry in entries.iter() {
             let entries_for_edit = entries_clone.clone();
             let list_box_for_edit = list_box_clone.clone();
+            let stack_for_edit = stack_clone.clone();
             let toast_overlay_for_edit = toast_overlay_clone.clone();
             let window_for_edit = window_clone.clone();
-            let stack_for_edit = None::<gtk4::Stack>; // Not needed for edit
 
             let entries_for_delete = entries_clone.clone();
             let list_box_for_delete = list_box_clone.clone();
@@ -224,7 +227,7 @@ impl MainWindow {
                         &window_for_edit,
                         &entries_for_edit,
                         &list_box_for_edit,
-                        stack_for_edit.as_ref(),
+                        Some(&stack_for_edit),
                         &toast_overlay_for_edit,
                     );
                 },
