@@ -13,6 +13,8 @@
 
 A lightweight GTK4/libadwaita application for managing XDG autostart entries on Linux.
 
+![Onset screenshot](data/screenshot.jpg)
+
 ## Features
 
 - **View autostart entries** from your user directory
