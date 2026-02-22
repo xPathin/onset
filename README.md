@@ -4,24 +4,24 @@ A lightweight GTK4/libadwaita application for managing XDG autostart entries on 
 
 ## Features
 
--   **View autostart entries** from your user directory
--   **Create new entries** from installed applications or custom commands
--   **Edit entries** — modify name, command, comment, and startup delay
--   **Enable/Disable** entries without deleting them
--   **Startup delay** — optionally delay application startup
--   **XDG compliant** — follows freedesktop.org specifications
+- **View autostart entries** from your user directory
+- **Create new entries** from installed applications or custom commands
+- **Edit entries** — modify name, command, comment, and startup delay
+- **Enable/Disable** entries without deleting them
+- **Startup delay** — optionally delay application startup
+- **XDG compliant** — follows freedesktop.org specifications
 
 ## Installation
 
 ### Arch Linux (Quick Install)
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/xPathin/onset/main/install_arch.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/xPathin/onset/main/install_arch)
 ```
 
 ### Arch Linux (AUR)
 
--   Coming soon
+- Coming soon
 
 ### From Source
 
@@ -42,16 +42,16 @@ sudo install -Dm644 data/icons/hicolor/scalable/apps/com.github.xPathin.onset.sv
 
 Launch `onset` from your application menu or terminal.
 
--   **Toggle switch** — Enable/disable an entry
--   **Edit button** — Modify entry settings
--   **Delete button** — Remove the entry
--   **+ button** — Add a new autostart entry
--   **Refresh button** — Reload entries from disk
+- **Toggle switch** — Enable/disable an entry
+- **Edit button** — Modify entry settings
+- **Delete button** — Remove the entry
+- **+ button** — Add a new autostart entry
+- **Refresh button** — Reload entries from disk
 
 ## Dependencies
 
--   GTK 4.12+
--   libadwaita 1.4+
+- GTK 4.12+
+- libadwaita 1.4+
 
 ## License
 

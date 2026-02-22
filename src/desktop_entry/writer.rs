@@ -3,10 +3,21 @@ use std::io::Write;
 use std::path::Path;
 
 use anyhow::{Context, Result};
+use once_cell::sync::Lazy;
+use regex::Regex;
 
 use super::parser::escape_value;
 use super::types::{CreateOptions, DesktopEntry};
 use crate::operations::delay::{unwrap_delay, wrap_with_delay};
+
+/// Strip XDG desktop entry field codes (%u, %U, %f, %F, %i, %c, %k) from an
+/// Exec line.  These are placeholders for file/URL arguments that are
+/// meaningless in an autostart context where no file or URL is being opened.
+fn strip_field_codes(exec: &str) -> String {
+    static FIELD_CODE_PATTERN: Lazy<Regex> = Lazy::new(|| Regex::new(r"%[uUfFick]").unwrap());
+    let stripped = FIELD_CODE_PATTERN.replace_all(exec, "");
+    stripped.split_whitespace().collect::<Vec<_>>().join(" ")
+}
 
 pub fn write_atomic(path: &Path, content: &str) -> Result<()> {
     let parent = path.parent().context("Invalid path: no parent directory")?;
@@ -47,10 +58,11 @@ pub fn write_desktop_entry(
     content.push_str("Type=Application\n");
     content.push_str(&format!("Name={}\n", escape_value(name)));
 
+    let exec = strip_field_codes(exec);
     let final_exec = if options.delay_seconds > 0 {
-        wrap_with_delay(exec, options.delay_seconds)
+        wrap_with_delay(&exec, options.delay_seconds)
     } else {
-        exec.to_string()
+        exec
     };
     content.push_str(&format!("Exec={}\n", final_exec));
 
@@ -86,6 +98,7 @@ pub fn update_desktop_entry_content(
     let mut keys_written: std::collections::HashSet<&str> = std::collections::HashSet::new();
 
     let (base_exec, _) = unwrap_delay(&entry.exec);
+    let base_exec = strip_field_codes(&base_exec);
     let final_exec = match delay_seconds {
         Some(d) if d > 0 => wrap_with_delay(&base_exec, d),
         _ => base_exec,
@@ -207,6 +220,35 @@ pub fn sanitize_id(id: &str) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_strip_field_codes_basic() {
+        assert_eq!(strip_field_codes("firefox %U"), "firefox");
+        assert_eq!(strip_field_codes("nautilus %F"), "nautilus");
+        assert_eq!(strip_field_codes("app %f"), "app");
+        assert_eq!(strip_field_codes("app %u"), "app");
+    }
+
+    #[test]
+    fn test_strip_field_codes_all_codes() {
+        assert_eq!(strip_field_codes("app %u %U %f %F %i %c %k"), "app");
+    }
+
+    #[test]
+    fn test_strip_field_codes_no_codes() {
+        assert_eq!(strip_field_codes("app --flag"), "app --flag");
+        assert_eq!(strip_field_codes("/usr/bin/app"), "/usr/bin/app");
+    }
+
+    #[test]
+    fn test_strip_field_codes_mid_command() {
+        assert_eq!(strip_field_codes("app %c --flag"), "app --flag");
+    }
+
+    #[test]
+    fn test_strip_field_codes_preserves_literal_percent() {
+        assert_eq!(strip_field_codes("app %%"), "app %%");
+    }
 
     #[test]
     fn test_sanitize_id() {
