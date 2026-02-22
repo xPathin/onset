@@ -2,7 +2,7 @@ name: Release
 
 on:
   push:
-    tags: ["[0-9]+.*"]
+    tags: ["v[0-9]+.*"]
 
 jobs:
   validate:
@@ -12,7 +12,8 @@ jobs:
       - name: Verify tag matches Cargo.toml
         run: |
           CARGO_VER=$(grep '^version' Cargo.toml | head -1 | sed 's/.*"\(.*\)"/\1/')
-          if [ "$CARGO_VER" != "$GITHUB_REF_NAME" ]; then
+          TAG_VER=${GITHUB_REF_NAME#v}
+          if [ "$CARGO_VER" != "$TAG_VER" ]; then
             echo "::error::Tag $GITHUB_REF_NAME doesn't match Cargo.toml version $CARGO_VER"
             exit 1
           fi
@@ -34,7 +35,8 @@ jobs:
       - run: cargo build --release --locked
       - name: Package
         run: |
-          DIR="onset-${GITHUB_REF_NAME}-linux-${{ matrix.arch }}"
+          VERSION=${GITHUB_REF_NAME#v}
+          DIR="onset-${VERSION}-linux-${{ matrix.arch }}"
           mkdir "$DIR"
           cp target/release/onset "$DIR/"
           cp data/com.github.xPathin.onset.desktop "$DIR/"

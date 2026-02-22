@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Update PKGBUILD version
         run: |
-          sed -i "s/pkgver=.*/pkgver=${GITHUB_REF_NAME}/" aur/onset/PKGBUILD
+          sed -i "s/pkgver=.*/pkgver=${GITHUB_REF_NAME#v}/" aur/onset/PKGBUILD
       - uses: KSXGitHub/github-actions-deploy-aur@v3.0.1
         with:
           pkgname: onset
