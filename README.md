@@ -2,18 +2,22 @@
   <img src="data/icons/hicolor/scalable/apps/com.github.xPathin.onset.svg" width="128" height="128" alt="Onset">
 </p>
 
-# Onset
+<h1 align="center">Onset</h1>
 
-[![CI](https://github.com/xPathin/onset/actions/workflows/ci.yml/badge.svg)](https://github.com/xPathin/onset/actions/workflows/ci.yml)
-[![Release](https://github.com/xPathin/onset/actions/workflows/release.yml/badge.svg)](https://github.com/xPathin/onset/actions/workflows/release.yml)
-[![GitHub Release](https://img.shields.io/github/v/release/xPathin/onset)](https://github.com/xPathin/onset/releases/latest)
-[![AUR](https://img.shields.io/aur/version/onset)](https://aur.archlinux.org/packages/onset)
-[![AUR git](https://img.shields.io/aur/version/onset-git)](https://aur.archlinux.org/packages/onset-git)
-[![License: MIT](https://img.shields.io/github/license/xPathin/onset)](LICENSE)
+<p align="center">
+  <a href="https://github.com/xPathin/onset/actions/workflows/ci.yml"><img src="https://github.com/xPathin/onset/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/xPathin/onset/actions/workflows/release.yml"><img src="https://github.com/xPathin/onset/actions/workflows/release.yml/badge.svg" alt="Release"></a>
+  <a href="https://github.com/xPathin/onset/releases/latest"><img src="https://img.shields.io/github/v/release/xPathin/onset" alt="GitHub Release"></a>
+  <a href="https://aur.archlinux.org/packages/onset"><img src="https://img.shields.io/aur/version/onset" alt="AUR"></a>
+  <a href="https://aur.archlinux.org/packages/onset-git"><img src="https://img.shields.io/aur/version/onset-git" alt="AUR git"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/xPathin/onset" alt="License: MIT"></a>
+</p>
 
-A lightweight GTK4/libadwaita application for managing XDG autostart entries on Linux.
+<p align="center">A lightweight GTK4/libadwaita application for managing XDG autostart entries on Linux.</p>
 
-![Onset screenshot](data/screenshot.jpg)
+<p align="center">
+  <img src="data/screenshot.jpg" alt="Onset screenshot">
+</p>
 
 ## Features
 
