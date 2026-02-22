@@ -1,0 +1,26 @@
+name: AUR onset-git
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Update pkgver
+        run: |
+          PKGVER="$(git describe --long --tags --abbrev=7 2>/dev/null \
+            | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g' \
+            || printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short=7 HEAD)")"
+          sed -i "s/pkgver=.*/pkgver=$PKGVER/" aur/onset-git/PKGBUILD
+      - uses: KSXGitHub/github-actions-deploy-aur@v3.0.1
+        with:
+          pkgname: onset-git
+          pkgbuild: ./aur/onset-git/PKGBUILD
+          commit_username: ${{ secrets.AUR_USERNAME }}
+          commit_email: ${{ secrets.AUR_EMAIL }}
+          ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}

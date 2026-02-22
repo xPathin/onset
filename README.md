@@ -13,15 +13,16 @@ A lightweight GTK4/libadwaita application for managing XDG autostart entries on 
 
 ## Installation
 
-### Arch Linux (Quick Install)
-
-```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/xPathin/onset/main/install_arch)
-```
-
 ### Arch Linux (AUR)
 
-- Coming soon
+```bash
+paru -S onset          # latest release
+paru -S onset-git      # latest main branch
+```
+
+### Pre-built Binaries
+
+Download from the [latest release](https://github.com/xPathin/onset/releases/latest).
 
 ### From Source
 
