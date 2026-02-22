@@ -62,8 +62,6 @@ where
         glib::Propagation::Proceed
     });
 
-    row.add_suffix(&toggle);
-
     let info_box = gtk4::Box::builder()
         .orientation(gtk4::Orientation::Horizontal)
         .spacing(6)
@@ -116,6 +114,7 @@ where
     }
 
     row.add_suffix(&info_box);
+    row.add_suffix(&toggle);
 
     if entry.effective_state == EffectiveState::Disabled {
         row.add_css_class("dim-label");
