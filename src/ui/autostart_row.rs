@@ -48,11 +48,17 @@ where
 
     let entry_path = entry.path.clone();
     let entry_id = entry.id.clone();
+    let toggle_row = row.clone();
 
     toggle.connect_state_set(move |_, state| {
         match crate::operations::set_entry_enabled_by_path(&entry_path, state) {
             Ok(_) => {
                 tracing::info!("Toggled {} to {}", entry_id, state);
+                if state {
+                    toggle_row.remove_css_class("dim-label");
+                } else {
+                    toggle_row.add_css_class("dim-label");
+                }
             }
             Err(e) => {
                 tracing::error!("Failed to toggle {}: {}", entry_id, e);
@@ -61,8 +67,6 @@ where
 
         glib::Propagation::Proceed
     });
-
-    row.add_suffix(&toggle);
 
     let info_box = gtk4::Box::builder()
         .orientation(gtk4::Orientation::Horizontal)
@@ -116,6 +120,7 @@ where
     }
 
     row.add_suffix(&info_box);
+    row.add_suffix(&toggle);
 
     if entry.effective_state == EffectiveState::Disabled {
         row.add_css_class("dim-label");
