@@ -3,6 +3,12 @@ name: AUR onset-git
 on:
   push:
     branches: [main]
+    paths:
+      - "src/**"
+      - "data/**"
+      - "Cargo.toml"
+      - "Cargo.lock"
+      - "aur/onset-git/**"
 
 jobs:
   publish:
