@@ -1,0 +1,22 @@
+name: AUR onset
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    if: ${{ !github.event.release.prerelease }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update PKGBUILD version
+        run: |
+          sed -i "s/pkgver=.*/pkgver=${GITHUB_REF_NAME}/" aur/onset/PKGBUILD
+      - uses: KSXGitHub/github-actions-deploy-aur@v3.0.1
+        with:
+          pkgname: onset
+          pkgbuild: ./aur/onset/PKGBUILD
+          commit_username: ${{ secrets.AUR_USERNAME }}
+          commit_email: ${{ secrets.AUR_EMAIL }}
+          ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}

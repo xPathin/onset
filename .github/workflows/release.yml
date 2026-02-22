@@ -1,11 +1,24 @@
 name: Release
 
 on:
-  release:
-    types: [published]
+  push:
+    tags: ["[0-9]+.*"]
 
 jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify tag matches Cargo.toml
+        run: |
+          CARGO_VER=$(grep '^version' Cargo.toml | head -1 | sed 's/.*"\(.*\)"/\1/')
+          if [ "$CARGO_VER" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME doesn't match Cargo.toml version $CARGO_VER"
+            exit 1
+          fi
+
   build:
+    needs: validate
     strategy:
       matrix:
         include:
@@ -30,20 +43,5 @@ jobs:
           tar czf "${DIR}.tar.gz" "$DIR"
       - uses: softprops/action-gh-release@v2
         with:
+          draft: true
           files: onset-*.tar.gz
-
-  publish-aur:
-    if: ${{ !github.event.release.prerelease }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Update PKGBUILD version
-        run: |
-          sed -i "s/pkgver=.*/pkgver=$GITHUB_REF_NAME/" aur/onset/PKGBUILD
-      - uses: KSXGitHub/github-actions-deploy-aur@v3.0.1
-        with:
-          pkgname: onset
-          pkgbuild: ./aur/onset/PKGBUILD
-          commit_username: ${{ secrets.AUR_USERNAME }}
-          commit_email: ${{ secrets.AUR_EMAIL }}
-          ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
