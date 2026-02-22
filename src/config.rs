@@ -1,8 +1,8 @@
 use std::path::PathBuf;
 
-use once_cell::sync::Lazy;
+use std::sync::LazyLock;
 
-pub static XDG_PATHS: Lazy<XdgPaths> = Lazy::new(XdgPaths::new);
+pub static XDG_PATHS: LazyLock<XdgPaths> = LazyLock::new(XdgPaths::new);
 
 #[derive(Debug, Clone)]
 pub struct XdgPaths {

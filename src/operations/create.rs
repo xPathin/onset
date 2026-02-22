@@ -36,18 +36,9 @@ fn find_unique_path(base_id: &str) -> PathBuf {
         return base_path;
     }
 
-    for i in 1..1000 {
-        let suffixed_path = XDG_PATHS
-            .user_autostart
-            .join(format!("{}_{}.desktop", base_id, i));
-        if !suffixed_path.exists() {
-            return suffixed_path;
-        }
-    }
-
     let timestamp = std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)
-        .map(|d| d.as_secs())
+        .map(|d| d.as_millis())
         .unwrap_or(0);
     XDG_PATHS
         .user_autostart

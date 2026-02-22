@@ -3,7 +3,8 @@ use std::io::Write;
 use std::path::Path;
 
 use anyhow::{Context, Result};
-use once_cell::sync::Lazy;
+use std::sync::LazyLock;
+
 use regex::Regex;
 
 use super::parser::escape_value;
@@ -14,7 +15,8 @@ use crate::operations::delay::{unwrap_delay, wrap_with_delay};
 /// Exec line.  These are placeholders for file/URL arguments that are
 /// meaningless in an autostart context where no file or URL is being opened.
 pub(crate) fn strip_field_codes(exec: &str) -> String {
-    static FIELD_CODE_PATTERN: Lazy<Regex> = Lazy::new(|| Regex::new(r"%[uUfFick]").unwrap());
+    static FIELD_CODE_PATTERN: LazyLock<Regex> =
+        LazyLock::new(|| Regex::new(r"%[uUfFick]").unwrap());
     let stripped = FIELD_CODE_PATTERN.replace_all(exec, "");
     stripped.split_whitespace().collect::<Vec<_>>().join(" ")
 }

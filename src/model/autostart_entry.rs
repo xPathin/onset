@@ -37,10 +37,10 @@ impl AutostartEntry {
             return EffectiveState::Disabled;
         }
 
-        if let Some(ref try_exec) = self.desktop_entry.try_exec {
-            if !binary_exists(try_exec) {
-                return EffectiveState::TryExecFailed;
-            }
+        if let Some(ref try_exec) = self.desktop_entry.try_exec
+            && !binary_exists(try_exec)
+        {
+            return EffectiveState::TryExecFailed;
         }
 
         if !self.desktop_entry.only_show_in.is_empty()

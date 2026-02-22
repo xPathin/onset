@@ -14,7 +14,7 @@ cargo test
 - **Error handling**: `anyhow::Result` everywhere, `.with_context()` for path-related errors
 - **File I/O**: Always use `write_atomic()` (temp file + rename) for writing .desktop files
 - **GTK state**: `Rc<RefCell<T>>` for shared mutable state in callbacks — this is standard GTK-rs
-- **Lazy statics**: `once_cell::sync::Lazy` for compiled regexes and XDG paths
+- **Lazy statics**: `std::sync::LazyLock` for compiled regexes and XDG paths
 - **Desktop entry format**: INI-like with `[Desktop Entry]` section header, key=value pairs
 - **Startup delay**: Wraps exec as `sh -c 'sleep N && exec CMD'`, parsed back with regex
 - **Field codes**: `%u`, `%U`, `%f`, `%F`, `%i`, `%c`, `%k` are stripped from Exec lines (meaningless for autostart)

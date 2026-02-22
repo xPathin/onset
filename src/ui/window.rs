@@ -135,6 +135,7 @@ impl MainWindow {
                     &list_box_clone,
                     &stack_clone,
                     &toast_overlay_clone,
+                    true,
                 );
             });
         }
@@ -275,6 +276,7 @@ impl MainWindow {
         list_box: &gtk4::ListBox,
         stack: &gtk4::Stack,
         toast_overlay: &adw::ToastOverlay,
+        show_toast: bool,
     ) {
         match discover_autostart_entries() {
             Ok(discovered) => {
@@ -333,8 +335,10 @@ impl MainWindow {
                     stack.set_visible_child_name("list");
                 }
 
-                let toast = adw::Toast::new("Entries refreshed");
-                toast_overlay.add_toast(toast);
+                if show_toast {
+                    let toast = adw::Toast::new("Entries refreshed");
+                    toast_overlay.add_toast(toast);
+                }
             }
             Err(e) => {
                 tracing::error!("Failed to refresh entries: {}", e);
@@ -377,6 +381,7 @@ impl MainWindow {
                             &list_box_clone,
                             &stack_clone,
                             &toast_overlay_clone,
+                            false,
                         );
                         let toast = adw::Toast::new(&format!("Added {}", app.name));
                         toast_overlay_clone.add_toast(toast);
@@ -431,6 +436,7 @@ impl MainWindow {
                         &list_box_clone,
                         &stack_clone,
                         &toast_overlay_clone,
+                        false,
                     );
                     let toast = adw::Toast::new(&format!("Created {}", name));
                     toast_overlay_clone.add_toast(toast);
@@ -520,6 +526,7 @@ impl MainWindow {
                                     &list_box_clone,
                                     stack,
                                     &toast_overlay_clone,
+                                    false,
                                 );
                             }
                             let toast = adw::Toast::new(&format!("Updated {}", entry_name));
@@ -552,10 +559,10 @@ impl MainWindow {
                 let delete_index = { entries.borrow().iter().position(|e| e.path == path) };
                 entries.borrow_mut().retain(|e| e.path != path);
 
-                if let Some(index) = delete_index {
-                    if let Some(row) = list_box.row_at_index(index as i32) {
-                        list_box.remove(&row);
-                    }
+                if let Some(index) = delete_index
+                    && let Some(row) = list_box.row_at_index(index as i32)
+                {
+                    list_box.remove(&row);
                 }
 
                 let toast = adw::Toast::new(&format!("Deleted {}", id));
