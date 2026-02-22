@@ -1,5 +1,12 @@
 # Onset
 
+[![CI](https://github.com/xPathin/onset/actions/workflows/ci.yml/badge.svg)](https://github.com/xPathin/onset/actions/workflows/ci.yml)
+[![Release](https://github.com/xPathin/onset/actions/workflows/release.yml/badge.svg)](https://github.com/xPathin/onset/actions/workflows/release.yml)
+[![GitHub Release](https://img.shields.io/github/v/release/xPathin/onset)](https://github.com/xPathin/onset/releases/latest)
+[![AUR](https://img.shields.io/aur/version/onset)](https://aur.archlinux.org/packages/onset)
+[![AUR git](https://img.shields.io/aur/version/onset-git)](https://aur.archlinux.org/packages/onset-git)
+[![License: MIT](https://img.shields.io/github/license/xPathin/onset)](LICENSE)
+
 A lightweight GTK4/libadwaita application for managing XDG autostart entries on Linux.
 
 ## Features
