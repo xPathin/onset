@@ -1,6 +1,4 @@
-use std::path::Path;
-
-use anyhow::{Context, Result};
+use anyhow::Result;
 
 use super::types::DesktopEntry;
 
@@ -71,14 +69,6 @@ pub fn parse_desktop_file(content: &str) -> Result<DesktopEntry> {
     }
 
     Ok(entry)
-}
-
-pub fn parse_desktop_file_from_path(path: &Path) -> Result<(DesktopEntry, String)> {
-    let content = std::fs::read_to_string(path)
-        .with_context(|| format!("Failed to read desktop file: {}", path.display()))?;
-
-    let entry = parse_desktop_file(&content)?;
-    Ok((entry, content))
 }
 
 pub fn is_valid_desktop_entry(content: &str) -> bool {

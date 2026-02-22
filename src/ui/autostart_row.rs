@@ -120,7 +120,6 @@ where
         row.add_css_class("dim-label");
     }
 
-    // Add edit button
     let edit_button = gtk4::Button::builder()
         .icon_name("document-edit-symbolic")
         .valign(gtk4::Align::Center)
@@ -136,7 +135,6 @@ where
 
     row.add_suffix(&edit_button);
 
-    // Add delete button
     let delete_button = gtk4::Button::builder()
         .icon_name("user-trash-symbolic")
         .valign(gtk4::Align::Center)

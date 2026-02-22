@@ -366,7 +366,6 @@ impl MainWindow {
             }
         });
 
-        // Wire up custom entry creation
         let window_clone = window.clone();
         let entries_clone2 = entries.clone();
         let list_box_clone2 = list_box.clone();
@@ -465,7 +464,6 @@ impl MainWindow {
         stack: Option<&gtk4::Stack>,
         toast_overlay: &adw::ToastOverlay,
     ) {
-        // Find the entry by path
         let entry_opt = entries.borrow().iter().find(|e| e.path == path).cloned();
 
         if let Some(entry) = entry_opt {
@@ -491,7 +489,6 @@ impl MainWindow {
                     let entry_name = current_entry.desktop_entry.name.clone();
                     match edit_autostart_entry(&current_entry, changes) {
                         Ok(_) => {
-                            // Refresh the list
                             if let Some(ref stack) = stack_clone {
                                 MainWindow::refresh_entries(
                                     &window_clone,
@@ -528,13 +525,9 @@ impl MainWindow {
             Ok(_) => {
                 tracing::info!("Deleted autostart entry: {}", path.display());
 
-                // Find the index of the entry to delete BEFORE removing
                 let delete_index = { entries.borrow().iter().position(|e| e.path == path) };
-
-                // Remove from entries list
                 entries.borrow_mut().retain(|e| e.path != path);
 
-                // Remove the row at the found index
                 if let Some(index) = delete_index {
                     if let Some(row) = list_box.row_at_index(index as i32) {
                         list_box.remove(&row);

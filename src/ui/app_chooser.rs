@@ -101,7 +101,6 @@ impl AppChooserDialog {
             });
         }
 
-        // Wire up custom button
         {
             let custom_callback_clone = custom_callback.clone();
             let window_clone = window.clone();

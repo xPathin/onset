@@ -3,7 +3,7 @@ use std::path::Path;
 use anyhow::Result;
 
 use crate::config::XDG_PATHS;
-use crate::desktop_entry::parser::{is_valid_desktop_entry, parse_desktop_file_from_path};
+use crate::desktop_entry::parser::{is_valid_desktop_entry, parse_desktop_file};
 use crate::model::AutostartEntry;
 
 pub fn discover_autostart_entries() -> Result<Vec<AutostartEntry>> {
@@ -54,12 +54,12 @@ fn load_autostart_entry(path: &Path, id: &str) -> Option<AutostartEntry> {
         return None;
     }
 
-    let (desktop_entry, raw_content) = parse_desktop_file_from_path(path).ok()?;
+    let desktop_entry = parse_desktop_file(&content).ok()?;
 
     Some(AutostartEntry::new(
         id.to_string(),
         path.to_path_buf(),
         desktop_entry,
-        raw_content,
+        content,
     ))
 }

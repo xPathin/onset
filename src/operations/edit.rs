@@ -1,7 +1,7 @@
 use anyhow::{Context, Result};
 
-use crate::desktop_entry::writer::{update_desktop_entry_content, write_atomic};
 use crate::desktop_entry::EntryChanges;
+use crate::desktop_entry::writer::{update_desktop_entry_content, write_atomic};
 use crate::model::AutostartEntry;
 use crate::operations::delay::unwrap_delay;
 

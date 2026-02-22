@@ -1,10 +1,10 @@
 use std::path::PathBuf;
 
-use anyhow::{bail, Context, Result};
+use anyhow::{Context, Result, bail};
 
 use crate::config::XDG_PATHS;
-use crate::desktop_entry::writer::{sanitize_id, write_desktop_entry};
 use crate::desktop_entry::CreateOptions;
+use crate::desktop_entry::writer::{sanitize_id, write_desktop_entry};
 
 pub fn create_autostart_entry(
     id: &str,
@@ -17,7 +17,6 @@ pub fn create_autostart_entry(
         bail!("Invalid entry ID: {}", id);
     }
 
-    // Find a unique filename by adding suffix if needed
     let path = find_unique_path(&sanitized_id);
 
     write_desktop_entry(&path, name, exec, &options)

@@ -3,7 +3,7 @@ use std::collections::HashSet;
 use anyhow::Result;
 
 use crate::config::XDG_PATHS;
-use crate::desktop_entry::parser::{is_valid_desktop_entry, parse_desktop_file_from_path};
+use crate::desktop_entry::parser::{is_valid_desktop_entry, parse_desktop_file};
 use crate::model::Application;
 use crate::utils::binary_exists;
 
@@ -72,7 +72,7 @@ fn scan_application_dir(
             continue;
         }
 
-        let (desktop_entry, _) = match parse_desktop_file_from_path(&path) {
+        let desktop_entry = match parse_desktop_file(&content) {
             Ok(e) => e,
             Err(_) => continue,
         };
