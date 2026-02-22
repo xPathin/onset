@@ -547,7 +547,7 @@ impl MainWindow {
 
     fn handle_delete(
         path: PathBuf,
-        id: &str,
+        name: &str,
         entries: &Rc<RefCell<Vec<AutostartEntry>>>,
         list_box: &gtk4::ListBox,
         toast_overlay: &adw::ToastOverlay,
@@ -565,7 +565,7 @@ impl MainWindow {
                     list_box.remove(&row);
                 }
 
-                let toast = adw::Toast::new(&format!("Deleted {}", id));
+                let toast = adw::Toast::new(&format!("Deleted {}", name));
                 toast_overlay.add_toast(toast);
             }
             Err(e) => {
