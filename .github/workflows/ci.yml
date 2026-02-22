@@ -3,13 +3,6 @@ name: CI
 on:
   pull_request:
     branches: [main]
-    paths:
-      - "src/**"
-      - "data/**"
-      - "Cargo.toml"
-      - "Cargo.lock"
-      - "aur/**"
-      - ".github/workflows/**"
 
 jobs:
   check:
