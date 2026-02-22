@@ -1,0 +1,51 @@
+name: Bug Report
+description: Report something that isn't working correctly
+labels: [bug]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: A clear description of the bug.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: How can we reproduce the issue?
+      placeholder: |
+        1. Open Onset
+        2. Click '...'
+        3. See error
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What did you expect to happen?
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Onset version
+      description: Run `onset --version` or check About in the header bar.
+      placeholder: "1.0.1"
+    validations:
+      required: true
+  - type: input
+    id: desktop
+    attributes:
+      label: Desktop environment / compositor
+      placeholder: "e.g. GNOME 47, niri 25.02, Hyprland 0.45"
+    validations:
+      required: false
+  - type: input
+    id: distro
+    attributes:
+      label: Linux distribution
+      placeholder: "e.g. Arch Linux, Fedora 41"
+    validations:
+      required: false
