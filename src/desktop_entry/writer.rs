@@ -13,7 +13,7 @@ use crate::operations::delay::{unwrap_delay, wrap_with_delay};
 /// Strip XDG desktop entry field codes (%u, %U, %f, %F, %i, %c, %k) from an
 /// Exec line.  These are placeholders for file/URL arguments that are
 /// meaningless in an autostart context where no file or URL is being opened.
-fn strip_field_codes(exec: &str) -> String {
+pub(crate) fn strip_field_codes(exec: &str) -> String {
     static FIELD_CODE_PATTERN: Lazy<Regex> = Lazy::new(|| Regex::new(r"%[uUfFick]").unwrap());
     let stripped = FIELD_CODE_PATTERN.replace_all(exec, "");
     stripped.split_whitespace().collect::<Vec<_>>().join(" ")
@@ -248,6 +248,27 @@ mod tests {
     #[test]
     fn test_strip_field_codes_preserves_literal_percent() {
         assert_eq!(strip_field_codes("app %%"), "app %%");
+    }
+
+    #[test]
+    fn test_write_desktop_entry_strips_field_codes() {
+        let dir = std::env::temp_dir().join("onset_test_write");
+        std::fs::create_dir_all(&dir).unwrap();
+        let path = dir.join("test_strip.desktop");
+
+        let options = CreateOptions::default();
+        write_desktop_entry(&path, "Test", "evolution %U", &options).unwrap();
+
+        let content = std::fs::read_to_string(&path).unwrap();
+        std::fs::remove_dir_all(&dir).ok();
+
+        eprintln!("Written content:\n{}", content);
+        assert!(
+            !content.contains("%U"),
+            "File should not contain %U but got:\n{}",
+            content
+        );
+        assert!(content.contains("Exec=evolution\n"));
     }
 
     #[test]

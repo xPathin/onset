@@ -1,6 +1,7 @@
 use anyhow::Result;
 
 use super::types::DesktopEntry;
+use crate::operations::delay::{unwrap_delay, wrap_with_delay};
 
 pub fn parse_desktop_file(content: &str) -> Result<DesktopEntry> {
     let mut entry = DesktopEntry::default();
@@ -28,7 +29,14 @@ pub fn parse_desktop_file(content: &str) -> Result<DesktopEntry> {
 
             match key {
                 "Name" => entry.name = unescape_value(value),
-                "Exec" => entry.exec = value.to_string(),
+                "Exec" => {
+                    let (base, delay) = unwrap_delay(value);
+                    let stripped = super::writer::strip_field_codes(&base);
+                    entry.exec = match delay {
+                        Some(d) if d > 0 => wrap_with_delay(&stripped, d),
+                        _ => stripped,
+                    };
+                }
                 "Icon" => entry.icon = Some(value.to_string()),
                 "Comment" => entry.comment = Some(unescape_value(value)),
                 "Hidden" => entry.hidden = value.eq_ignore_ascii_case("true"),
@@ -169,6 +177,28 @@ OnlyShowIn=GNOME;Unity;
 "#;
         let entry = parse_desktop_file(content).unwrap();
         assert_eq!(entry.only_show_in, vec!["GNOME", "Unity"]);
+    }
+
+    #[test]
+    fn test_parse_strips_field_codes() {
+        let content = r#"[Desktop Entry]
+Type=Application
+Name=Firefox
+Exec=firefox %U
+"#;
+        let entry = parse_desktop_file(content).unwrap();
+        assert_eq!(entry.exec, "firefox");
+    }
+
+    #[test]
+    fn test_parse_strips_field_codes_inside_delay() {
+        let content = r#"[Desktop Entry]
+Type=Application
+Name=ZapZap
+Exec=sh -c 'sleep 5 && exec zapzap %u'
+"#;
+        let entry = parse_desktop_file(content).unwrap();
+        assert_eq!(entry.exec, "sh -c 'sleep 5 && exec zapzap'");
     }
 
     #[test]
