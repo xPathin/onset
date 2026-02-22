@@ -28,7 +28,7 @@ impl MainWindow {
     pub fn build(app: &adw::Application) -> adw::ApplicationWindow {
         let window = adw::ApplicationWindow::builder()
             .application(app)
-            .title("Autostart Manager")
+            .title("Onset")
             .default_width(700)
             .default_height(500)
             .build();
