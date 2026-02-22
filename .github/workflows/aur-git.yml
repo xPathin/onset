@@ -9,6 +9,8 @@ on:
       - "Cargo.toml"
       - "Cargo.lock"
       - "aur/onset-git/**"
+  release:
+    types: [published]
 
 jobs:
   publish:

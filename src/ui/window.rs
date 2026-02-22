@@ -48,8 +48,14 @@ impl MainWindow {
             .tooltip_text("Refresh")
             .build();
 
+        let about_button = gtk4::Button::builder()
+            .icon_name("help-about-symbolic")
+            .tooltip_text("About")
+            .build();
+
         header_bar.pack_start(&refresh_button);
         header_bar.pack_end(&add_button);
+        header_bar.pack_end(&about_button);
 
         let search_entry = gtk4::SearchEntry::builder()
             .placeholder_text("Search entries...")
@@ -150,6 +156,24 @@ impl MainWindow {
                     &stack_clone,
                     &toast_overlay_clone,
                 );
+            });
+        }
+
+        {
+            let window_clone = window.clone();
+            about_button.connect_clicked(move |_| {
+                let dialog = adw::AboutWindow::builder()
+                    .application_name("Onset")
+                    .version(env!("ONSET_VERSION"))
+                    .application_icon("com.github.xPathin.onset")
+                    .developer_name("Patrick Fischer")
+                    .license_type(gtk4::License::MitX11)
+                    .website("https://github.com/xPathin/onset")
+                    .issue_url("https://github.com/xPathin/onset/issues")
+                    .transient_for(&window_clone)
+                    .modal(true)
+                    .build();
+                dialog.present();
             });
         }
 
