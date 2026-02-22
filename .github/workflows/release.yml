@@ -30,7 +30,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
-      - run: sudo apt-get install -y libgtk-4-dev libadwaita-1-dev
+      - run: sudo apt-get update && sudo apt-get install -y libgtk-4-dev libadwaita-1-dev
       - run: cargo build --release --locked
       - name: Package
         run: |
@@ -41,7 +41,17 @@ jobs:
           cp data/icons/hicolor/scalable/apps/com.github.xPathin.onset.svg "$DIR/"
           cp LICENSE "$DIR/"
           tar czf "${DIR}.tar.gz" "$DIR"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: onset-linux-${{ matrix.arch }}
+          path: onset-*.tar.gz
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
       - uses: softprops/action-gh-release@v2
         with:
           draft: true
-          files: onset-*.tar.gz
+          files: "**/*.tar.gz"
