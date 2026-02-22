@@ -8,6 +8,8 @@ url="https://github.com/xPathin/onset"
 license=('MIT')
 depends=('gtk4' 'libadwaita')
 makedepends=('rust' 'cargo')
+provides=('onset')
+conflicts=('onset-git')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
 sha256sums=('SKIP')
 
