@@ -13,7 +13,7 @@ Thanks for your interest in contributing to Onset!
 
 - Open a PR against `main`. CI must pass.
 - Keep changes focused. One fix or feature per PR.
-- Run `cargo fmt` before committing.
+- Run `cargo fmt` and `cargo clippy` before committing.
 
 ## Reporting Issues
 

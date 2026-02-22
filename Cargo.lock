@@ -511,7 +511,6 @@ dependencies = [
  "anyhow",
  "gtk4",
  "libadwaita",
- "once_cell",
  "regex",
  "tracing",
  "tracing-subscriber",

@@ -141,6 +141,7 @@ impl AppChooserDialog {
         let row = adw::ActionRow::builder()
             .title(&app.name)
             .activatable(true)
+            .use_markup(false)
             .build();
 
         if let Some(ref comment) = app.comment {

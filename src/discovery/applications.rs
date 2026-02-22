@@ -81,10 +81,10 @@ fn scan_application_dir(
             continue;
         }
 
-        if let Some(ref try_exec) = desktop_entry.try_exec {
-            if !binary_exists(try_exec) {
-                continue;
-            }
+        if let Some(ref try_exec) = desktop_entry.try_exec
+            && !binary_exists(try_exec)
+        {
+            continue;
         }
 
         seen_ids.insert(id.clone());

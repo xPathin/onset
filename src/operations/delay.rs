@@ -1,8 +1,9 @@
-use once_cell::sync::Lazy;
+use std::sync::LazyLock;
+
 use regex::Regex;
 
-static DELAY_PATTERN: Lazy<Regex> =
-    Lazy::new(|| Regex::new(r"^sh -c 'sleep (\d+) && exec (.+)'$").unwrap());
+static DELAY_PATTERN: LazyLock<Regex> =
+    LazyLock::new(|| Regex::new(r"^sh -c 'sleep (\d+) && exec (.+)'$").unwrap());
 
 pub fn wrap_with_delay(exec: &str, delay_seconds: u32) -> String {
     if delay_seconds == 0 {

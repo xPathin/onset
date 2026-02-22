@@ -20,6 +20,7 @@ where
     let row = adw::ActionRow::builder()
         .title(&entry.desktop_entry.name)
         .activatable(true)
+        .use_markup(false)
         .build();
 
     if let Some(ref comment) = entry.desktop_entry.comment {
@@ -143,9 +144,9 @@ where
         .build();
 
     let delete_path = entry.path.clone();
-    let delete_id = entry.id.clone();
+    let delete_name = entry.desktop_entry.name.clone();
     delete_button.connect_clicked(move |_| {
-        on_delete(delete_path.clone(), delete_id.clone());
+        on_delete(delete_path.clone(), delete_name.clone());
     });
 
     row.add_suffix(&delete_button);

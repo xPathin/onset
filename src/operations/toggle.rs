@@ -31,16 +31,15 @@ pub fn set_entry_enabled_by_path(path: &Path, enabled: bool) -> Result<()> {
             continue;
         }
 
-        if in_desktop_entry {
-            if let Some((key, _)) = trimmed.split_once('=') {
-                if key.trim() == "Hidden" {
-                    if !enabled {
-                        lines.push("Hidden=true".to_string());
-                        hidden_written = true;
-                    }
-                    continue;
-                }
+        if in_desktop_entry
+            && let Some((key, _)) = trimmed.split_once('=')
+            && key.trim() == "Hidden"
+        {
+            if !enabled {
+                lines.push("Hidden=true".to_string());
+                hidden_written = true;
             }
+            continue;
         }
 
         lines.push(line.to_string());
