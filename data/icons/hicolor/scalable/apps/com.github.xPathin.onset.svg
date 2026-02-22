@@ -1,29 +1,83 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img"
-    aria-label="Autostart Manager Icon">
-    <defs>
-        <linearGradient id="bg" x1="32" y1="32" x2="224" y2="224" gradientUnits="userSpaceOnUse">
-            <stop offset="0" stop-color="#0B1220" />
-            <stop offset="1" stop-color="#111A2E" />
-        </linearGradient>
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="256" y2="256" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1C1044"/>
+      <stop offset="1" stop-color="#0C1929"/>
+    </linearGradient>
 
-        <linearGradient id="accent" x1="96" y1="80" x2="176" y2="176" gradientUnits="userSpaceOnUse">
-            <stop offset="0" stop-color="#7C3AED" />
-            <stop offset="1" stop-color="#22D3EE" />
-        </linearGradient>
-    </defs>
+    <linearGradient id="body" x1="128" y1="51" x2="128" y2="184" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#E0D4FF"/>
+      <stop offset="0.5" stop-color="#A78BFA"/>
+      <stop offset="1" stop-color="#7C3AED"/>
+    </linearGradient>
 
-    <!-- App background -->
-    <rect x="28" y="28" width="200" height="200" rx="56" fill="url(#bg)" />
-    <rect x="28" y="28" width="200" height="200" rx="56"
-        fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="2" />
+    <linearGradient id="fin" x1="61" y1="154" x2="61" y2="200" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#818CF8"/>
+      <stop offset="1" stop-color="#4F46E5"/>
+    </linearGradient>
 
-    <!-- Core symbol: ordered startup entries -->
-    <g>
-        <!-- entry 1 -->
-        <rect x="84" y="88" width="88" height="16" rx="8" fill="url(#accent)" />
-        <!-- entry 2 -->
-        <rect x="84" y="120" width="88" height="16" rx="8" fill="rgba(255,255,255,0.75)" />
-        <!-- entry 3 -->
-        <rect x="84" y="152" width="88" height="16" rx="8" fill="rgba(255,255,255,0.45)" />
-    </g>
+    <linearGradient id="finR" x1="195" y1="154" x2="195" y2="200" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#818CF8"/>
+      <stop offset="1" stop-color="#4F46E5"/>
+    </linearGradient>
+
+    <linearGradient id="flame" x1="128" y1="179" x2="128" y2="233" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FBBF24"/>
+      <stop offset="0.5" stop-color="#F97316"/>
+      <stop offset="1" stop-color="#EF4444" stop-opacity="0.3"/>
+    </linearGradient>
+
+    <linearGradient id="flameInner" x1="128" y1="179" x2="128" y2="220" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FEF3C7"/>
+      <stop offset="1" stop-color="#FBBF24" stop-opacity="0"/>
+    </linearGradient>
+
+    <radialGradient id="glow" cx="128" cy="143" r="102" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#7C3AED" stop-opacity="0.15"/>
+      <stop offset="1" stop-color="#7C3AED" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="windowGlow" cx="128" cy="118" r="23" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#22D3EE" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#22D3EE" stop-opacity="0"/>
+    </radialGradient>
+
+    <clipPath id="iconClip">
+      <rect width="256" height="256" rx="62"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background -->
+  <rect width="256" height="256" rx="62" fill="url(#bg)"/>
+  <rect width="256" height="256" rx="62" fill="none" stroke="rgba(139,92,246,0.15)" stroke-width="2"/>
+
+  <!-- Clipped content -->
+  <g clip-path="url(#iconClip)">
+    <!-- Ambient glow -->
+    <circle cx="128" cy="143" r="102" fill="url(#glow)"/>
+
+    <!-- Fins -->
+    <path d="M95 154 L61 200 L95 179 Z" fill="url(#fin)"/>
+    <path d="M161 154 L195 200 L161 179 Z" fill="url(#finR)"/>
+
+    <!-- Flame -->
+    <path d="M108 182 C113 205 123 223 128 233 C133 223 143 205 148 182" fill="url(#flame)"/>
+    <path d="M118 182 C122 200 125 213 128 220 C131 213 134 200 138 182" fill="url(#flameInner)"/>
+
+    <!-- Rocket body -->
+    <path d="M128 51 C151 79 166 115 166 151 C166 174 154 184 128 184 C102 184 90 174 90 151 C90 115 105 79 128 51 Z" fill="url(#body)"/>
+
+    <!-- Window glow -->
+    <circle cx="128" cy="118" r="23" fill="url(#windowGlow)"/>
+
+    <!-- Window -->
+    <circle cx="128" cy="118" r="14" fill="#0F0A28"/>
+    <circle cx="128" cy="118" r="14" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
+    <circle cx="128" cy="118" r="9" fill="#22D3EE" opacity="0.15"/>
+
+    <!-- Sparkles -->
+    <path d="M187 77 L189 82 L195 85 L189 87 L187 92 L184 87 L179 85 L184 82 Z" fill="white" opacity="0.65"/>
+    <circle cx="69" cy="90" r="3" fill="white" opacity="0.35"/>
+    <circle cx="195" cy="149" r="2" fill="white" opacity="0.2"/>
+  </g>
 </svg>

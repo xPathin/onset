@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="data/icons/hicolor/scalable/apps/com.github.xPathin.onset.svg" width="128" height="128" alt="Onset">
+</p>
+
 # Onset
 
 [![CI](https://github.com/xPathin/onset/actions/workflows/ci.yml/badge.svg)](https://github.com/xPathin/onset/actions/workflows/ci.yml)
